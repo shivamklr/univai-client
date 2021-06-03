@@ -33,7 +33,6 @@ function SingleTest({ _id, userType, name, questions }) {
                     });
                 }
             });
-            throw new Error();
         } catch (error) {
             setisError(true);
         } finally {
@@ -92,7 +91,7 @@ function SingleTest({ _id, userType, name, questions }) {
                 })}
             </Form>
             {userType === "teacher" && questionList.length > 0 && (
-                <Button loading={isLoading} onClick={handleSave}>
+                <Button id="save-button"loading={isLoading} onClick={handleSave}>
                     Save
                 </Button>
             )}
