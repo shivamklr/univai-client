@@ -74,8 +74,10 @@ function SingleTest({ _id, userType, name, questions }) {
                         );
                     })}
                 </Form>
-                {userType === "teacher" && (
-                    <Button onClick={handleSave}>Save</Button>
+                {isError && (
+                    <Message negative>
+                        <Message.Header>Error while Saving</Message.Header>
+                    </Message>
                 )}
                 {userType === "teacher" && (
                     <AddQuestion
