@@ -1,5 +1,5 @@
 import React from "react";
-import {Loader} from "semantic-ui-react"
+import {Loader, Message} from "semantic-ui-react"
 import SingleTest from "../components/SingleTest";
 import { useFetchTest } from "../utils/hooks";
 
@@ -14,7 +14,7 @@ function Test(props) {
             {!isLoading && !isError && (
                 <SingleTest userType={userType} {...test} />
             )}
-            {isError && <p>Error while fetching test</p>}
+            {isError && <Message negative><Message.Header>Error while fetching test</Message.Header></Message>}
         </div>
     );
 }
