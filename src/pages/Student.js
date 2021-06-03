@@ -1,13 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, Container, Header, Message } from "semantic-ui-react";
+import { Card, Container, Header, Loader, Message } from "semantic-ui-react";
 import { useFetchTest } from "../utils/hooks";
 
 function Student() {
-    const [tests, settest, { isLoading, isError }] = useFetchTest();
+    const [tests, { isLoading, isError }] = useFetchTest();
     return (
         <Container>
-            <Header as="h1" textAlign="left">Take a Test</Header>
+            <Header as="h1" textAlign="left">
+                Take a Test
+            </Header>
+            {isLoading && <Loader active={isLoading} />}
             {!isLoading &&
                 tests.map((test) => {
                     // if(visibility){
