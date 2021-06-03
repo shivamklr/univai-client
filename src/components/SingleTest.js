@@ -1,5 +1,6 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Container, Form, Header, Button } from "semantic-ui-react";
+import { Container, Form, Header, Button, Message } from "semantic-ui-react";
 import AddQuestion from "./AddQuestion";
 
 function SingleTest({ _id, userType, name, questions }) {
@@ -16,7 +17,29 @@ function SingleTest({ _id, userType, name, questions }) {
             })
         );
     };
-    const handleSave = () => {};
+    const handleSave = () => {
+        try {
+            setisError(false);
+            setisLoading(true);
+            questionList.forEach(async (question) => {
+                if (
+                    question.selectedId &&
+                    question.answerId !== question.selectedId
+                ) {
+                    await axios.patch("/test/question/answer", {
+                        testId: _id,
+                        questionId: question._id,
+                        answerId: question.selectedId,
+                    });
+                }
+            });
+            throw new Error();
+        } catch (error) {
+            setisError(true);
+        } finally {
+            setisLoading(false);
+        }
+    };
     const handleSubmit = () => {
         // evaluation logic
         const marks = questionList.reduce((a, question) => {
@@ -31,14 +54,10 @@ function SingleTest({ _id, userType, name, questions }) {
     };
     return (
         <div>
-            SinglePost
-            <p>testId= {_id}</p>
-            <p>name={name}</p>
-            <p>userType = {userType}</p>
             <Container>
                 <Header as="h1">{name}</Header>
                 <Form>
-                    {questionList.map((question, index) => {
+                    {questionList.map((question) => {
                         return (
                             <Form.Group key={question._id} grouped>
                                 <Form.Field>{question.title}</Form.Field>
@@ -74,6 +93,11 @@ function SingleTest({ _id, userType, name, questions }) {
                         );
                     })}
                 </Form>
+                {userType === "teacher" && questionList.length > 0 && (
+                    <Button loading={isLoading} onClick={handleSave}>
+                        Save
+                    </Button>
+                )}
                 {isError && (
                     <Message negative>
                         <Message.Header>Error while Saving</Message.Header>
