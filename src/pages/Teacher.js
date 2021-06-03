@@ -1,7 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Form, Container, Card, Message, Button } from "semantic-ui-react";
+import {
+    Form,
+    Container,
+    Card,
+    Message,
+    Button,
+    Header,
+    Loader,
+} from "semantic-ui-react";
 import { useFetchTest, useForm } from "../utils/hooks";
 function Teacher() {
     const initialState = {
@@ -13,7 +21,7 @@ function Teacher() {
         callback,
         initialState
     );
-    const [tests, settest, { isLoading, isError }] = useFetchTest();
+    const [tests, { isLoading, isError }, settest] = useFetchTest();
     async function callback() {
         try {
             setpostError(false);
@@ -33,7 +41,11 @@ function Teacher() {
         }
     }
     return (
-        <Container text>
+        <Container>
+            <Header as="h1" textAlign="left">
+                Add/Edit a Test
+            </Header>
+            {isLoading && <Loader active={isLoading} />}
             {!isLoading &&
                 tests.map((test) => {
                     return (
@@ -45,17 +57,19 @@ function Teacher() {
                         ></Card>
                     );
                 })}
-            <Form loading={postLoading} noValidate>
-                <Form.Input
-                    label="Test Name"
-                    type="text"
-                    placeholder="Enter Test Name"
-                    name="testName"
-                    value={values.testName}
-                    onChange={changeHandler}
-                />
-                <Button onClick={submitHandler}>Submit</Button>
-            </Form>
+            {!isLoading && (
+                <Form loading={postLoading} noValidate>
+                    <Form.Input
+                        label="Test Name"
+                        type="text"
+                        placeholder="Enter Test Name"
+                        name="testName"
+                        value={values.testName}
+                        onChange={changeHandler}
+                    />
+                    <Button onClick={submitHandler}>Submit</Button>
+                </Form>
+            )}
             {isError && (
                 <Message negative>
                     <Message.Header>Error while fetching</Message.Header>
