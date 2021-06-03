@@ -15,13 +15,25 @@ function SingleTest({ _id, userType, name, questions }) {
         );
     };
     const handleSave = () => {};
+    const handleSubmit = () => {
+        // evaluation logic
+        const marks = questionList.reduce((a, question) => {
+            if (
+                question.answerId !== undefined &&
+                question.answerId === question.selectedId
+            ) {
+                return a + 1;
+            } else return a;
+        }, 0);
+        alert(`You scored ${marks} out of ${questionList.length}`);
+    };
     return (
         <div>
             SinglePost
             <p>testId= {_id}</p>
             <p>name={name}</p>
             <p>userType = {userType}</p>
-            <Container fluid>
+            <Container>
                 <Header as="h1">{name}</Header>
                 <Form>
                     {questionList.map((question, index) => {
@@ -41,8 +53,10 @@ function SingleTest({ _id, userType, name, questions }) {
                                                     question.selectedId
                                                         ? choice._id ===
                                                           question.selectedId
-                                                        : choice._id ===
-                                                          question.answerId
+                                                        : userType ===
+                                                              "teacher" &&
+                                                          choice._id ===
+                                                              question.answerId
                                                 }
                                                 onChange={(e) =>
                                                     handleChange(
@@ -66,6 +80,9 @@ function SingleTest({ _id, userType, name, questions }) {
                         testId={_id}
                         setQuestionList={setQuestionList}
                     />
+                )}
+                {userType === "student" && (
+                    <Button onClick={handleSubmit}>Submit</Button>
                 )}
             </Container>
         </div>
