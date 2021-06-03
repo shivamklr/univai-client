@@ -16,6 +16,7 @@ function Teacher() {
     const [tests, settest, { isLoading, isError }] = useFetchTest();
     async function callback() {
         try {
+            setpostError(false);
             setpostLoading(true);
             const res = await axios.post("/test", {
                 name: values.testName,
