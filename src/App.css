@@ -1,3 +1,6 @@
 .container{
     margin:20px;
 }
+.form,#save-button{
+    margin-bottom: 20px;
+}
