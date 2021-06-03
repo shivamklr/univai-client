@@ -37,6 +37,6 @@ export const useFetchTest = (testId) => {
             }
         }
         fetchData();
-    }, [url]);
-    return [test, settest,{ isError, isLoading }];
+    }, [testId, url]);
+    return [test, { isError, isLoading }, settest];
 };
