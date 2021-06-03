@@ -4,6 +4,8 @@ import AddQuestion from "./AddQuestion";
 
 function SingleTest({ _id, userType, name, questions }) {
     const [questionList, setQuestionList] = useState([...questions]);
+    const [isError, setisError] = useState(false);
+    const [isLoading, setisLoading] = useState(false);
     const handleChange = (questionId, selectedId) => {
         setQuestionList(
             questionList.map((question) => {
